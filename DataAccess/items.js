@@ -4,17 +4,17 @@ const assert = require('assert');
 
 const url = process.env.DB_URL;
 
-const dbName = "our_media";
-const colName = "available_shows";
+const dbName = "mystore";
+const colName = "mycart";
 const settings = { useUnifiedTopology: true }
 
-const getShow = () => {
+const getItem= () => {
     const iou = new Promise ((resolve,reject) => {
         MongoClient.connect(url, settings, function(err, client){
             if(err){
                 reject(err);
             }else{
-                console.log("Connected to Shows DB")
+                console.log("Connected to Cart")
                 const db = client.db(dbName);
                 const collection = db.collection(colName);
                 collection.find({}).toArray(function(err, docs){
@@ -33,16 +33,16 @@ const getShow = () => {
     return iou;
 };
 
-const createShow = (show) => {
+const createItem = (item) => {
     const iou = new Promise ((resolve,reject) => {
         MongoClient.connect(url, settings, async function (err,client){
             if(err){
                 reject(err);
             } else{
-                console.log("Connected successfully to POST new Show");
+                console.log("Connected successfully to POST new Item");
                 const db = client.db(dbName);
                 const collection = db.collection(colName)
-                collection.insertMany (show, (err, result) => {
+                collection.insertMany (item, (err, result) => {
                    if(err){
                        reject(err);
                    } else {
@@ -60,17 +60,17 @@ const createShow = (show) => {
     return iou;
 };
 
-const updateShow= (id, show) => {
+const updateItem= (id, item) => {
     const iou = new Promise ((resolve, reject) => {
         MongoClient.connect(url, settings, function (err, client){
             if(err){
                 reject(err);
             }else{
-                console.log("Connected to server to Update Show.");
+                console.log("Connected to server to Update Item.");
                 const db = client.db(dbName);
                 const collection = db.collection(colName);
                 collection.replaceOne({_id: ObjectID(id)},
-                    show,
+                    item,
                     {upsert:true },
                     (err, result) => {
                         if(err){
@@ -87,13 +87,13 @@ const updateShow= (id, show) => {
     return iou;
 };
 
-const deleteShow = async (id) => {
+const deleteItem = async (id) => {
     const iou = new Promise ((resolve, reject) => {
         MongoClient.connect(url, settings, async function (err, client) { 
             if(err){
                 reject(err);
             } else {
-                console.log("Connected to Server to Delete Show");
+                console.log("Connected to Server to Delete Item");
                 const db = client.db(dbName);
                 const collection = db.collection(colName);
                 console.log(collection)
@@ -112,8 +112,8 @@ const deleteShow = async (id) => {
 }; 
 
 module.exports = {
-    getShow,
-    createShow,
-    updateShow,
-    deleteShow
+    getItem,
+    createItem,
+    updateItem,
+    deleteItem
 }

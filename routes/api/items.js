@@ -1,14 +1,14 @@
 const express = require('express');
-const {getShow} = require('../../DataAccess/shows');
-const {createShow} = require('../../DataAccess/shows');
-const {updateShow} = require('../../DataAccess/shows');
-const {deleteShow} = require('../../DataAccess/shows');
+const {getItem} = require('../../DataAccess/items');
+const {createItem} = require('../../DataAccess/items');
+const {updateItem} = require('../../DataAccess/items');
+const {deleteItem} = require('../../DataAccess/items');
 const router = express.Router();
 
 router.get('/', async function(req, res, next) {
     try {
           console.log("Got it!")
-          const data = await getShow(); 
+          const data = await getItem(); 
           res.send(data);
     } catch (err) {
           console.log(err);
@@ -19,7 +19,7 @@ router.get('/', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
     console.log(req.body);
        try {
-             const data = await createShow(req.body); 
+             const data = await createItem(req.body); 
              res.send(data);
        } catch (err) {
              console.log(err);
@@ -30,7 +30,7 @@ router.post('/', async function(req, res, next) {
 router.put('/:id', async function(req, res, next) {
     console.log(req.body);
        try {
-             const data = await updateShow(req.params.id, req.body); 
+             const data = await updateItem(req.params.id, req.body); 
              res.send(data);
              
        } catch (err) {
@@ -42,7 +42,7 @@ router.put('/:id', async function(req, res, next) {
 router.delete('/:id', async function(req, res, next) {
     console.log(req.body);
          try {
-               const data = await deleteShow(req.params.id); 
+               const data = await deleteItem(req.params.id); 
                res.send(data);
                
          } catch (err) {
